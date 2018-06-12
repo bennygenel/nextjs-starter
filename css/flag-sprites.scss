@@ -1,0 +1,26 @@
+/*
+    Took necessary parts from https://github.com/flarik/css-sprite-flags
+*/
+
+.flag { 
+    display: inline-block; 
+    background-repeat: no-repeat;
+  }
+
+.flag.flag-24 { 
+    display: inline-block; 
+    width: 24px;
+    height: 24px;
+    background-image: url('/static/sprite-flags-24x24.png'); 
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.flag.flag-24.flag-de { background-position: -144px -96px; }
+.flag.flag-24.flag-es { background-position: -0px -120px; }
+.flag.flag-24.flag-fr { background-position: -192px -120px; }
+.flag.flag-24.flag-gb { background-position: -240px -120px; }
+.flag.flag-24.flag-it { background-position: -144px -168px; }
+.flag.flag-24.flag-us { background-position: -168px -336px; }
+.flag.flag-24.flag-tr { background-position: -0px -336px; }

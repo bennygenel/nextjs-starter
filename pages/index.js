@@ -20,10 +20,10 @@ export default class extends Page {
                 <br className="v-block d-sm-none"/>
                 Next.js
               </span>
-              <br className="v-block d-lg-none"/> Starter Project
+              <br className="v-block d-lg-none"/> {this.props.t('jumbotronHeader')}
             </h1>
             <p className="lead mb-5">
-              A reference and template for React projects
+              {this.props.t('jumbotronSubHeader')}
             </p>
             <p className="text-right">
               <a href="https://github.com/iaincollins/nextjs-starter" className="btn btn-outline-light btn-lg"><span className="icon ion-logo-github mr-2"/> Download from GitHub</a>

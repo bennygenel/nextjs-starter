@@ -92,7 +92,7 @@ export default class extends React.Component {
                 </div>
               </div>
             </Nav>
-            <UserMenu session={this.props.session} toggleModal={this.toggleModal} signinBtn={this.props.signinBtn}/>
+            <UserMenu session={this.props.session} toggleModal={this.toggleModal} signinBtn={this.props.signinBtn} i18n={this.props.i18n}/>
           </div>
         </Navbar>
         <MainBody navmenu={this.props.navmenu} fluid={this.props.fluid} container={this.props.container}>
@@ -170,16 +170,26 @@ export class UserMenu extends React.Component {
     this.handleSignoutSubmit = this.handleSignoutSubmit.bind(this)
   }
 
-   async handleSignoutSubmit(event) {
-     event.preventDefault()
-     
-     // Save current URL so user is redirected back here after signing out
-     const cookies = new Cookies()
-     cookies.set('redirect_url', window.location.pathname, { path: '/' })
+  async handleSignoutSubmit(event) {
+    event.preventDefault()
+    
+    // Save current URL so user is redirected back here after signing out
+    const cookies = new Cookies()
+    cookies.set('redirect_url', window.location.pathname, { path: '/' })
 
-     await NextAuth.signout()
-     Router.push('/')
-   }
+    await NextAuth.signout()
+    Router.push('/')
+  }
+
+  changeLanguage = (e, lang) => {
+    e.preventDefault()
+    const { i18n } = this.props
+    i18n.reloadResources([lang])
+    i18n.changeLanguage(lang, (err, t) => {
+      if (err) console.error('something went wrong loading', err);
+      console.info('Language Changed:', `${t('hello')} ${lang}`)
+    })
+  }
    
   render() {
     if (this.props.session && this.props.session.user) {
@@ -221,6 +231,36 @@ export class UserMenu extends React.Component {
       // If not signed in, display sign in button
       return (
         <Nav className="ml-auto" navbar>
+          <NavItem>
+            <div tabIndex="1" className="dropdown nojs-dropdown">
+              <div className="nav-item">
+                <span className="dropdown-toggle nav-link">Change Language</span>
+              </div>
+              <div className="dropdown-menu">
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'en_US')}>
+                  <i className="flag flag-24 flag-us"></i>English - USA
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'en_GB')}>
+                  <i className="flag flag-24 flag-gb"></i>English - GB
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'de')}>
+                  <i className="flag flag-24 flag-de"></i>German
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'fr')}>
+                  <i className="flag flag-24 flag-fr"></i>French
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'it')}>
+                  <i className="flag flag-24 flag-it"></i>Italian
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'es')}>
+                  <i className="flag flag-24 flag-es"></i>Spanish
+                </a>
+                <a href="#" className="dropdown-item" onClick={(e) => this.changeLanguage(e, 'tr')}>
+                  <i className="flag flag-24 flag-tr"></i>Turkish
+                </a>
+              </div>
+            </div>
+          </NavItem>
           <NavItem>
             {/**
               * @TODO Add support for passing current URL path as redirect URL

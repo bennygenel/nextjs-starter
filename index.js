@@ -1,5 +1,6 @@
 'use strict'
 
+const locale = require('locale')
 const next = require('next')
 const nextAuth = require('next-auth')
 const nextAuthConfig = require('./next-auth.config')
@@ -8,6 +9,9 @@ const routes = {
   admin:  require('./routes/admin'),
   account:  require('./routes/account')
 }
+
+const supportedLocales = ['en_US', 'en_GB', 'en', 'de', 'es', 'fr', 'it', 'tr']
+const defaultLocale = 'en'
 
 // Load environment variables from .env file if present
 require('dotenv').load()
@@ -49,6 +53,12 @@ nextApp
   // Get Express and instance of Express from NextAuth
   const express = nextAuthOptions.express
   const expressApp = nextAuthOptions.expressApp
+
+  // Set locale middleware for browser locale detection
+  expressApp.use(locale(supportedLocales, defaultLocale))
+
+  // Serve translations
+  expressApp.use('/translations', express.static('./translations'))
 
   // Add admin routes
   routes.admin(expressApp)
